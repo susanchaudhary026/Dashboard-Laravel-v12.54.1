@@ -62,11 +62,11 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $request->validate([
-            'title' => 'required|max:255|unique:categories,title,' . $id
+            'title' => 'required|min:3|max:255|unique:categories,title,' . $id . 'regex:/^[^<>]*$/|trim'
         ]);
 
         $category->update([
-            'title' => $request->title
+            'title' => trim($request->title)
         ]);
 
         return redirect()->route('categories.index');
