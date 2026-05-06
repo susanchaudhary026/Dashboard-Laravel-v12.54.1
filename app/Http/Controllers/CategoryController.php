@@ -29,11 +29,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|unique:categories,title|max:255'
+            'title' => 'required|string|min:3|max:255|unique:categories,title|regex:/^[^<>]*$/|trim'
         ]);
 
         Category::create([
-            'title' => $request->title
+            'title' => trim($request->title)
         ]);
 
         return redirect()->route('categories.index');
