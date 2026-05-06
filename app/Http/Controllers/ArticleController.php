@@ -121,15 +121,18 @@ class ArticleController extends Controller
 
         if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin' || Auth::id() === $article->user_id) {
             $request->validate([
-                'title' => 'required',
-                'body' => 'required',
-                'category_id' => 'required|exists:categories,id',
+                'title' => 'required|min:5|max:255|regex:/^[^<>]*$/|trim',
+                'body' => 'required|min:10|max:10000|regex:/^[^<>]*$/',
+                'category_id' => 'required|integer|exists:categories,id',
                 'status' => 'required|in:0,1',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'media_link' => 'nullable|string'
             ]);
 
+            $title = trim($request->title);
+
             $data = $request->only(['title', 'body', 'category_id', 'status']);
+            $data['title'] = $title;
 
             if ($request->hasFile('image')) {
                 $data['image'] = $this->storeImage($request->file('image'), $article->image);
