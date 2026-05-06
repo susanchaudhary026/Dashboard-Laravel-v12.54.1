@@ -77,13 +77,15 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-            'category_id' => 'required|exists:categories,id',
+            'title' => 'required|min:5|max:255|regex:/^[^<>]*$/|trim',
+            'body' => 'required|min:10|max:10000|regex:/^[^<>]*$/',
+            'category_id' => 'required|integer|exists:categories,id',
             'status' => 'required|in:0,1',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'media_link' => 'nullable|string' 
         ]);
+
+        $title = trim($request->title);
 
         $imagePath = $request->hasFile('image') 
             ? $this->storeImage($request->file('image')) 
