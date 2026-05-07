@@ -29,7 +29,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|min:3|max:255|unique:categories,title|regex:/^[^<>]*$/|trim'
+            'title' => 'required|string|min:3|max:255|unique:categories,title|regex:/^[^<>]*$/'
         ]);
 
         Category::create([
@@ -62,7 +62,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $request->validate([
-            'title' => 'required|min:3|max:255|unique:categories,title,' . $id . 'regex:/^[^<>]*$/|trim'
+            'title' => 'required|min:3|max:255|unique:categories,title,' . $id . 'regex:/^[^<>]*$/'
         ]);
 
         $category->update([
