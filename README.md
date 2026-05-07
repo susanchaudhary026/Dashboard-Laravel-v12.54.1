@@ -135,7 +135,7 @@ As a cybersecurity enthusiast, I am actively learning about web application secu
 
 2. Unrestricted File Upload: Lack of comprehensive file type and size validation allowing potentially malicious file uploads.
 
-3. Cross-Site Scripting (XSS): User inputs and article content may not be properly sanitized, potentially allowing JavaScript injection.
+3. Cross-Site Scripting (XSS): User inputs and article content may not be properly sanitized, potentially allowing JavaScript injection. (**FIXED**)
 
 4. Insufficient Authorization Checks: Missing verification to ensure users can only access their own content.
 
@@ -143,7 +143,7 @@ As a cybersecurity enthusiast, I am actively learning about web application secu
 
 6. Insecure Direct Object Reference (IDOR): File and article IDs may be predictable, allowing unauthorized access to other users' resources.
 
-7. Missing Input Validation: Incomplete validation on form submissions for articles, files, and categories.
+7. Missing Input Validation: Incomplete validation on form submissions for articles, files, and categories. (**FIXED**)
 
 8. CSRF Protection: Potential gaps in Cross-Site Request Forgery protection on certain forms.
 
@@ -165,6 +165,25 @@ I am committed to learning about and implementing proper security practices. Fut
 - Following OWASP Top 10 guidelines
 
 As my cybersecurity knowledge grows, these vulnerabilities will be systematically identified and fixed in subsequent versions.
+
+## 🔒 Security Improvements
+
+This project implements progressive security hardening through daily vulnerability fixes.
+
+### Day 1: Input Validation & XSS Prevention  (FIXED)
+- **Type:** Cross-Site Scripting (XSS) & Improper Input Validation
+- **Risk:** HIGH (CWE-79, OWASP A03:2021)
+- **Status:** RESOLVED
+- **Coverage:** ArticleController, CategoryController
+- **Details:** See [docs/SECURITY_FIXES.md](docs/SECURITY_FIXES.md)
+
+### Day 2: Unrestricted File Upload  (IN PROGRESS)
+- **Type:** Unrestricted File Upload & Execution
+- **Risk:** HIGH
+- **Status:** IMPLEMENTATION PENDING
+- **Coverage:** File handling, storage security
+- **Details:** See [docs/SECURITY_FIXES.md](docs/SECURITY_FIXES.md)
+
 
 ## Requirements
 
