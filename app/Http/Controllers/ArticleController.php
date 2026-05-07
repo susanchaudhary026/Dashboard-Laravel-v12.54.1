@@ -77,7 +77,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|min:5|max:255|regex:/^[^<>]*$/|trim',
+            'title' => 'required|min:5|max:255|regex:/^[^<>]*$/',
             'body' => 'required|min:10|max:10000|regex:/^[^<>]*$/',
             'category_id' => 'required|integer|exists:categories,id',
             'status' => 'required|in:0,1',
@@ -92,7 +92,7 @@ class ArticleController extends Controller
             : $request->media_link;
 
         Article::create([
-            'title' => $request->title,
+            'title' => $title,
             'body' => $request->body,
             'category_id' => $request->category_id,
             'status' => $request->status,
@@ -121,7 +121,7 @@ class ArticleController extends Controller
 
         if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin' || Auth::id() === $article->user_id) {
             $request->validate([
-                'title' => 'required|min:5|max:255|regex:/^[^<>]*$/|trim',
+                'title' => 'required|min:5|max:255|regex:/^[^<>]*$/',
                 'body' => 'required|min:10|max:10000|regex:/^[^<>]*$/',
                 'category_id' => 'required|integer|exists:categories,id',
                 'status' => 'required|in:0,1',
