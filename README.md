@@ -166,7 +166,10 @@ I am committed to learning about and implementing proper security practices. Fut
 
 As my cybersecurity knowledge grows, these vulnerabilities will be systematically identified and fixed in subsequent versions.
 
-## 🔒 Security Improvements
+## Added Features
+1. Live streaming feature for user's->role()=='admin' | 'superadmin', where admin or superadmin can live stream can be screenshare or visual camera with working mic and video. (** In Progress **)
+
+## Security Improvements
 
 This project implements progressive security hardening through daily vulnerability fixes.
 
