@@ -63,9 +63,11 @@
                     <tr>
                         <td style="padding: 10px;">
                             @if($article->image)
-                                <img src="{{ Storage::url($article->image) }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                <img src="{{ $article->image }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
                             @else
-                                <div style="width: 50px; height: 50px; background: #eee; border-radius: 4px;"></div>
+                                <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                    <span class="text-gray-400">No Image</span>
+                                </div>
                             @endif
                         </td>
                         <td style="padding: 10px; font-weight: 500;">{{ Str::limit($article->title, 40) }}</td>

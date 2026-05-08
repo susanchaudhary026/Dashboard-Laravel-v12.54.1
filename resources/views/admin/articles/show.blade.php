@@ -19,9 +19,10 @@
     </div>
 
     @if($article->image)
-        <div style="width: 100%; background: #f9f9f9; padding: 15px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 25px; text-align: center;">
-            <img src="{{ asset('storage/' . $article->image) }}" 
-                 style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <img src="{{ $article->image }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
+    @else
+        <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-400">No Image</span>
         </div>
     @endif
 
