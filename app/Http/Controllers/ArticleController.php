@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Helpers\FileHelper;
 
 class ArticleController extends Controller
@@ -75,39 +74,42 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|min:5|max:255|regex:/^[^<>]*$/',
-            'body' => 'required|min:10|max:10000|regex:/^[^<>]*$/',
+            'body' => 'required|string',
             'category_id' => 'required|integer|exists:categories,id',
             'status' => 'required|in:0,1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'media_link' => 'nullable|string' 
+            'media_link' => 'nullable|string'
+        ]);
+
+        $validated['body'] = strip_tags($validated['body'], [
+            '<p>', '<br>', '<b>', '<i>', '<ul>', '<ol>', '<li>', '<img>', '<blockquote>', '<span>'
         ]);
 
         $title = trim($request->title);
 
-        
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        try {
-            $imagePath = FileHelper::storeImage($request->file('image'));
-        } catch (\Exception $e) {
-            return back()->withErrors(['image' => $e->getMessage()]);
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            try {
+                $imagePath = FileHelper::storeImage($request->file('image'));
+            } catch (\Exception $e) {
+                return back()->withErrors(['image' => $e->getMessage()]);
+            }
+        } elseif ($request->media_link) {
+            $imagePath = $request->media_link;
         }
-    } elseif ($request->media_link) {
-        $imagePath = $request->media_link;
-    }
 
-    Article::create([
-        'title' => $title,
-        'body' => $request->body,
-        'category_id' => $request->category_id,
-        'status' => $request->status,
-        'image' => $imagePath,
-        'user_id' => Auth::id()
-    ]);
+        Article::create([
+            'title' => $title,
+            'body' => $validated['body'],
+            'category_id' => $validated['category_id'],
+            'status' => $validated['status'],
+            'image' => $imagePath,
+            'user_id' => Auth::id()
+        ]);
 
-    return redirect()->route('articles.index')->with('success', 'Article created');
+        return redirect()->route('articles.index')->with('success', 'Article created');
     }
 
     public function edit($id)
@@ -127,15 +129,19 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin' || Auth::id() === $article->user_id) {
-            $request->validate([
+            $validated = $request->validate([
                 'title' => 'required|min:5|max:255|regex:/^[^<>]*$/',
-                'body' => 'required|min:10|max:10000|regex:/^[^<>]*$/',
+                'body' => 'required',
                 'category_id' => 'required|integer|exists:categories,id',
                 'status' => 'required|in:0,1',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'media_link' => 'nullable|string'
             ]);
 
+            $validated['body'] = strip_tags($validated['body'], [
+            '<p>', '<br>', '<b>', '<i>', '<ul>', '<ol>', '<li>', '<img>', '<blockquote>', '<span>'
+            ]);
+            
             $title = trim($request->title);
 
             $data = $request->only(['title', 'body', 'category_id', 'status']);
@@ -143,12 +149,11 @@ class ArticleController extends Controller
 
             if ($request->hasFile('image')) {
                 try {
-                $data['image'] = FileHelper::storeImage($request->file('image'), $article->image);
-            } catch (\Exception $e){
-                return back()->withErrors(['image' => $e->getMessage()]);
-            }
-            } 
-            elseif ($request->media_link) {
+                    $data['image'] = FileHelper::storeImage($request->file('image'), $article->image);
+                } catch (\Exception $e) {
+                    return back()->withErrors(['image' => $e->getMessage()]);
+                }
+            } elseif ($request->media_link) {
                 $data['image'] = $request->media_link;
             }
 
@@ -187,7 +192,7 @@ class ArticleController extends Controller
         $query = Article::with('user', 'category');
 
         if ($request->search) {
-             $query->where('title', 'like', '%' . $request->search . '%');
+            $query->where('title', 'like', '%' . $request->search . '%');
         }
 
         if ($request->category_id) {
@@ -237,7 +242,7 @@ class ArticleController extends Controller
     public function toggleStatus($id)
     {
         $article = Article::findOrFail($id);
-        
+
         if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin' || Auth::id() === $article->user_id) {
             $article->status = $article->status == 1 ? 0 : 1;
             $article->save();
