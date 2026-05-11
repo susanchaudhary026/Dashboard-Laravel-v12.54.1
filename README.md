@@ -133,7 +133,7 @@ As a cybersecurity enthusiast, I am actively learning about web application secu
 
 1. Path Traversal Vulnerability: Potential unauthorized access to files outside intended directories through manipulated file paths.
 
-2. Unrestricted File Upload: Lack of comprehensive file type and size validation allowing potentially malicious file uploads.
+2. Unrestricted File Upload: Lack of comprehensive file type and size validation allowing potentially malicious file uploads. (**FIXED**)
 
 3. Cross-Site Scripting (XSS): User inputs and article content may not be properly sanitized, potentially allowing JavaScript injection. (**FIXED**)
 
@@ -180,10 +180,10 @@ This project implements progressive security hardening through daily vulnerabili
 - **Coverage:** ArticleController, CategoryController
 - **Details:** See [docs/SECURITY_FIXES.md](docs/SECURITY_FIXES.md)
 
-### Day 2: Unrestricted File Upload  (IN PROGRESS)
+### Day 2: Unrestricted File Upload  (FIXED)
 - **Type:** Unrestricted File Upload & Execution
 - **Risk:** HIGH
-- **Status:** IMPLEMENTATION PENDING
+- **Status:** RESOLVED
 - **Coverage:** File handling, storage security
 - **Details:** See [docs/SECURITY_FIXES.md](docs/SECURITY_FIXES.md)
 
