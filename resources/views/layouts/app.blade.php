@@ -57,6 +57,11 @@
         <a href="{{ route('articles.index') }}">Articles</a>
         <a href="{{ route('categories.index') }}">Categories</a>
         <a href="{{ route('files.index') }}">File Manager</a>
+        <a href="{{ route('live.index') }}">Live Session</a>
+        @if(Auth::check() && in_array(Auth::user()->role, ['admin', 'superadmin']))
+        <a href="{{ route('live.admin') }}">Live Admin Panel</a>
+        @endif
+        
         @if(Auth::check() && Auth::user()->role === 'superadmin')
         <li class="nav-item">
             <a class="nav-link {{request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
