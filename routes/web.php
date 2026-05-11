@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FileController; 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LiveController;
+use Illuminate\Support\Facades\Route;
 
 // --- Public Routes ---
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
@@ -46,5 +47,11 @@ Route::middleware(['auth'])->group(function () {
     //user controller
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::post('/users/{id}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
+
+    // --- Live Streaming ---
+    Route::get('/live', [LiveController::class, 'index'])->name('live.index');
+    Route::get('/live/admin', [LiveController::class, 'admin'])->name('live.admin');
+    Route::post('/live/start', [LiveController::class, 'start'])->name('live.start');
+    Route::post('/live/end', [LiveController::class, 'end'])->name('live.end');
 
 });
