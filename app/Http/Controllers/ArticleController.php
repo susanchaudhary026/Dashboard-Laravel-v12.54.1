@@ -7,8 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
+use App\Helpers\FileHelper;
 
 class ArticleController extends Controller
 {
@@ -87,20 +86,28 @@ class ArticleController extends Controller
 
         $title = trim($request->title);
 
-        $imagePath = $request->hasFile('image') 
-            ? $this->storeImage($request->file('image')) 
-            : $request->media_link;
+        
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        try {
+            $imagePath = FileHelper::storeImage($request->file('image'));
+        } catch (\Exception $e) {
+            return back()->withErrors(['image' => $e->getMessage()]);
+        }
+    } elseif ($request->media_link) {
+        $imagePath = $request->media_link;
+    }
 
-        Article::create([
-            'title' => $title,
-            'body' => $request->body,
-            'category_id' => $request->category_id,
-            'status' => $request->status,
-            'image' => $imagePath,
-            'user_id' => Auth::id()
-        ]);
+    Article::create([
+        'title' => $title,
+        'body' => $request->body,
+        'category_id' => $request->category_id,
+        'status' => $request->status,
+        'image' => $imagePath,
+        'user_id' => Auth::id()
+    ]);
 
-        return redirect()->route('articles.index')->with('success', 'Article created');
+    return redirect()->route('articles.index')->with('success', 'Article created');
     }
 
     public function edit($id)
@@ -135,7 +142,11 @@ class ArticleController extends Controller
             $data['title'] = $title;
 
             if ($request->hasFile('image')) {
-                $data['image'] = $this->storeImage($request->file('image'), $article->image);
+                try {
+                $data['image'] = FileHelper::storeImage($request->file('image'), $article->image);
+            } catch (\Exception $e){
+                return back()->withErrors(['image' => $e->getMessage()]);
+            }
             } 
             elseif ($request->media_link) {
                 $data['image'] = $request->media_link;
@@ -154,11 +165,9 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin' || Auth::id() === $article->user_id) {
-            if ($article->image) {
-                Storage::disk('public')->delete($article->image);
-            }
+            FileHelper::deleteImage($article->image);
             $article->delete();
-            
+
             return redirect()->route('articles.index')->with('success', 'Article deleted successfully');
         }
 
@@ -223,25 +232,6 @@ class ArticleController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
-    }
-    
-    private function storeImage($file, $oldImage = null)
-    {
-        if ($oldImage && Storage::disk('public')->exists($oldImage)) {
-            Storage::disk('public')->delete($oldImage);
-        }
-
-        $filename = time() . '_' . $file->getClientOriginalName();
-        
-        $path = 'uploads/' . $filename;
-
-        $manager = new ImageManager(new Driver());
-        $img = $manager->read($file);
-        $img->cover(400, 400);
-
-        Storage::disk('public')->put($path, (string) $img->encode());
-
-        return $path;
     }
 
     public function toggleStatus($id)
