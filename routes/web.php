@@ -3,9 +3,9 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FileController; 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LiveController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 // --- Public Routes ---
@@ -34,24 +34,29 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::patch('/categories/{id}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggleStatus');
 
+    // 4. File Management
     Route::get('/file-management', [FileController::class, 'index'])->name('files.index');
     Route::post('/file-management/upload', [FileController::class, 'upload'])->name('files.upload');
     Route::delete('/file-management/delete', [FileController::class, 'destroy'])->name('files.destroy');
     Route::post('/file-management/create-folder', [FileController::class, 'createFolder'])->name('files.createFolder');
     Route::post('/file-management/move', [FileController::class, 'moveFile'])->name('files.move');
     Route::post('/file-management/copy', [FileController::class, 'copyFile'])->name('files.copy');
-
-
-    Route::get('/api/media', [App\Http\Controllers\FileController::class, 'getMediaJson'])->name('api.media');
+    Route::get('/api/media', [FileController::class, 'getMediaJson'])->name('api.media');
 
     //user controller
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::post('/users/{id}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
 
     // --- Live Streaming ---
+    // Public live stream view
     Route::get('/live', [LiveController::class, 'index'])->name('live.index');
-    Route::get('/live/admin', [LiveController::class, 'admin'])->name('live.admin');
-    Route::post('/live/start', [LiveController::class, 'start'])->name('live.start');
-    Route::post('/live/end', [LiveController::class, 'end'])->name('live.end');
+    Route::get('live/history', [LiveController::class, 'history'])->name('live.history');
+
 
 });
+    //Admin only live control
+    Route::middleware(['auth'])->group(function () {
+        Route::get('live/admin', [LiveController::class, 'admin'])->name('live.admin')->middleware('role:admin,superadmin');
+        Route::post('live/start', [LiveController::class, 'start'])->name('live.start')->middleware('role:admin,superadmin');
+        Route::post('live/end', [LiveController::class, 'end'])->name('live.end')->middleware('role:admin,superadmin');  
+    });
