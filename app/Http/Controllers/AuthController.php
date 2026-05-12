@@ -46,9 +46,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'name' => 'required|string|min:4|max:255|regex:/^[a-zA-Z\s]+$/',
+            'email' => 'required|email|unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            'password' => 'required|min:8|confirmed',
         ]);
 
         User::create([
@@ -99,7 +99,7 @@ public function updatePassword(Request $request) {
     $request->validate([
         'token' => 'required',
         'email' => 'required|email|exists:users,email',
-        'password' => 'required|min:6|confirmed',
+        'password' => 'required|min:8|confirmed',
     ]);
 
     $reset = DB::table('password_resets')
