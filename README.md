@@ -97,6 +97,16 @@ Dashboard Laravel v12.54.1 is a comprehensive web application built with Laravel
 - password_resets table migration
 - CKEditor integration for rich text editing in article content (body field)
 
+### v11 (dashboard-laravel-11-0-Live-Sessions)
+- LiveSession model and database migration with meeting_link field
+- Live streaming admin panel (/live/admin) for admins and superadmins to start/end sessions
+- Public live view (/live) for users to watch active live sessions
+- Google Meet (link-based) integration for video conferencing
+- Live session history tracking with pagination
+- Role-based middleware fix for proper authorization checks
+- Meeting link validation and sanitization
+- Live session duration calculation with getDurationInMinutes() method
+
 ## Screenshots
 
 ### Authentication
@@ -120,6 +130,10 @@ Dashboard Laravel v12.54.1 is a comprehensive web application built with Laravel
 
 ### User Management & Roles
 ![Roles Super Admin](screenshots/roles-superadmin.png)
+
+### Live Streaming
+![Live Admin Panel](screenshots/live-admin-panel.png)
+![Live Session View](screenshots/live-session-view.png)
 
 ## Important Notes
 
@@ -186,6 +200,14 @@ This project implements progressive security hardening through daily vulnerabili
 - **Status:** RESOLVED
 - **Coverage:** File handling, storage security
 - **Details:** See [docs/SECURITY_FIXES.md](docs/SECURITY_FIXES.md)
+
+
+### Day 3: Role-Based Authorization Middleware (FIXED)
+- **Type:** Broken Access Control & Missing Authorization
+- **Risk:** CRITICAL (CWE-639, OWASP A01:2021)
+- **Status:** RESOLVED
+- **Coverage:** CheckRole middleware, live streaming routes
+- **Fix:** Fixed parameter extraction in CheckRole middleware to properly receive and validate user roles from route parameters
 
 
 ## Requirements
