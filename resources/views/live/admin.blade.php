@@ -77,18 +77,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Meeting Preview</h5>
-                    </div>
-                    <div class="card-body">
-                        <iframe 
-                            src="{{ $live->meeting_link }}"
-                            style="width: 100%; height: 600px; border: none; border-radius: 5px;">
-                        </iframe>
-                    </div>
-                </div>
+                    
             @else
                  <div class="alert alert-info" role="alert">
                     <h4 class="alert-heading">No Active Live Session</h4>

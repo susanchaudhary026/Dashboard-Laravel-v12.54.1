@@ -47,11 +47,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($session->meeting_link)
+
+                                    @if($session->is_live && $session->meeting_link)
                                         <a href="{{ $session->meeting_link }}" target="_blank" class="btn btn-sm btn-primary">
                                             Open Link
                                         </a>
-                                    @endif
+                                        @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -59,7 +60,6 @@
                     </table>
                 </div>
 
-                {{-- Pagination --}}
                 <div class="d-flex justify-content-center mt-4">
                     {{ $sessions->links() }}
                 </div>

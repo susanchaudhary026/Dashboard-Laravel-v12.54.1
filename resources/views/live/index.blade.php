@@ -8,7 +8,6 @@
             <hr>
 
             @if($live && $live->is_live)
-                {{-- Active Session Card --}}
                 <div class="card border-success mb-4">
                     <div class="card-header bg-success text-white">
                         <h4 class="mb-0">Live Now</h4>
@@ -26,20 +25,7 @@
                     </div>
                 </div>
 
-                {{-- Google Meet Embed --}}
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Meeting</h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <iframe 
-                            src="{{ $live->meeting_link }}"
-                            style="width: 100%; height: 600px; border: none;">
-                        </iframe>
-                    </div>
-                </div>
             @else
-                {{-- No Active Session --}}
                 <div class="alert alert-info" role="alert">
                     <h4 class="alert-heading">No Live Session Active</h4>
                     <p>There is no live session currently active.</p>
