@@ -47,6 +47,20 @@
 </head>
 
 <body>
+    @if($error = session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ $error }}
+        </div>
+    @endif
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                @foreach($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="card">
         <h2>Create Account</h2>
 
@@ -55,6 +69,7 @@
             <input type="text" name="name" placeholder="Name" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
             
             <button type="submit">Register</button>
         </form>
