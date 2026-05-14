@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Article;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -42,6 +43,7 @@ class FileController extends Controller
 
         return view('admin.files.index', compact('allItems', 'currentPath', 'breadcrumbs', 'allFolders'));
     }
+    
 
     public function createFolder(Request $request)
     {
@@ -100,6 +102,10 @@ class FileController extends Controller
 
     public function getMediaJson()
     {
+        
+    if(!Auth::check()) {
+        return response()->json(['success' => false, 'message' => 'Unauthorized', 'data' => null], 401);
+    };
         $files = Storage::disk('public')->allFiles('uploads'); 
         
         $data = [];
