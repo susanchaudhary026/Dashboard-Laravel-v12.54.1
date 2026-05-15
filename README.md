@@ -25,6 +25,16 @@ Dashboard Laravel v12.54.1 is a comprehensive web application built with Laravel
 - Search and filtering capabilities
 - User profile management
 
+## API Endpoints
+
+- GET `/api/media` - Get all media files
+- POST `/file-management/upload` - Upload file
+- DELETE `/file-management/delete` - Delete file
+- POST `/file-management/create-folder` - Create folder
+- POST `/file-management/move` - Move file
+- POST `/file-management/copy` - Copy file
+- POST `/users/{id}/role` - Update user role
+
 ## Libraries and Technologies Used
 
 ### Core Framework
@@ -145,7 +155,7 @@ As a cybersecurity enthusiast, I am actively learning about web application secu
 
 ### Identified Vulnerabilities
 
-1. Path Traversal Vulnerability: Potential unauthorized access to files outside intended directories through manipulated file paths.
+1. Path Traversal Vulnerability: Potential unauthorized access to files outside intended directories through manipulated file paths. 
 
 2. Unrestricted File Upload: Lack of comprehensive file type and size validation allowing potentially malicious file uploads. (**FIXED**)
 
@@ -155,11 +165,11 @@ As a cybersecurity enthusiast, I am actively learning about web application secu
 
 5. Missing Rate Limiting: No rate limiting implemented on login attempts, file uploads, and other endpoints vulnerable to brute force attacks.
 
-6. Insecure Direct Object Reference (IDOR): File and article IDs may be predictable, allowing unauthorized access to other users' resources.
+6. Insecure Direct Object Reference (IDOR): File and article IDs may be predictable, allowing unauthorized access to other users' resources. (**FIXED**)
 
 7. Missing Input Validation: Incomplete validation on form submissions for articles, files, and categories. (**FIXED**)
 
-8. CSRF Protection: Potential gaps in Cross-Site Request Forgery protection on certain forms.
+8. CSRF Protection: Potential gaps in Cross-Site Request Forgery protection on certain forms. (**FIXED**)
 
 9. Session Management: Session timeout and security configurations may need enhancement.
 
@@ -181,7 +191,11 @@ I am committed to learning about and implementing proper security practices. Fut
 As my cybersecurity knowledge grows, these vulnerabilities will be systematically identified and fixed in subsequent versions.
 
 ## Added Features
-1. Live streaming feature for user's->role()=='admin' | 'superadmin', where admin or superadmin can live stream can be screenshare or visual camera with working mic and video. (** In Progress **)
+1. Live streaming feature for user's->role()=='admin' | 'superadmin', where admin or superadmin can live stream can be screenshare or visual camera with working mic and video basically, added a view where user's with admin or superadmin role can start a meeting through google meet.
+Here,
+- Admins or superadmin starts meeting manually in google meet.
+- Adds the title and meeting link in the place holders (form).
+- The live sessions view which is publicly available for all roles then pop-ups a div as admin | superadmin is live and a href for redirecting directly to the meeting link.
 
 ## Security Improvements
 
