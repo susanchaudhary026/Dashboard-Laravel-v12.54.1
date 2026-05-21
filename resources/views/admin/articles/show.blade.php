@@ -19,7 +19,7 @@
     </div>
 
     @if($article->image)
-    <img src="{{ $article->image }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
+    <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
     @else
         <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
             <span class="text-gray-400">No Image</span>
