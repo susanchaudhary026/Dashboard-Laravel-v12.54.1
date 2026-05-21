@@ -40,8 +40,8 @@ class FileHelper
     {
         try {
             // Delete old file if exists
-            if ($oldFile && Storage::disk('private')->exists($oldFile)) {
-                Storage::disk('private')->delete($oldFile);
+            if ($oldFile && Storage::disk('public')->exists($oldFile)) {
+                Storage::disk('public')->delete($oldFile);
             }
 
             // Validate file
@@ -50,8 +50,8 @@ class FileHelper
             // Generate unique filename
             $filename = self::generateUniqueFilename($file);
 
-            // Store in private storage (not publicly accessible)
-            $path = Storage::disk('private')->putFileAs('articles', $file, $filename);
+            // Store in storage 
+            $path = Storage::disk('public')->putFileAs('uploads/articles', $file, $filename);
 
             return $path;
         } catch (\Exception $e) {
@@ -107,7 +107,7 @@ class FileHelper
         $extension = strtolower($file->getClientOriginalExtension());
         
         if (!isset($validSignatures[$extension])) {
-            return; // it skips if extension is not in the allowed list, as it will be caught by previous validation
+            return; // it skips if extension is not in the allowed list it will be caught by previous validation
         }
 
         $handle = fopen($file->getPathname(), 'r');
@@ -140,38 +140,14 @@ class FileHelper
     }
 
     /**
-     * Get full URL for stored image
-     * 
-     * @param string $path
-     * @return string|null
-     */
-    public static function getImageUrl(?string $path): ?string
-    {
-        if (!$path) {
-            return null;
-        }
-
-        // If it's a URL (media_link), return as-is
-        if (filter_var($path, FILTER_VALIDATE_URL)) {
-            return $path;
-        }
-
-        // Return signed URL for private storage
-        return Storage::disk('private')->temporaryUrl(
-            $path,
-            now()->addHours(24)  // URL valid for 24 hours
-        );
-    }
-
-    /**
      * Delete image
      * 
      * @param string|null $path
      */
     public static function deleteImage(?string $path): void
     {
-        if ($path && !filter_var($path, FILTER_VALIDATE_URL) && Storage::disk('private')->exists($path)) {
-            Storage::disk('private')->delete($path);
+        if ($path && !filter_var($path, FILTER_VALIDATE_URL) && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
         }
     }
 }
