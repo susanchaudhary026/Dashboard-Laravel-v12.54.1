@@ -22,7 +22,7 @@
     <div class="card mb-4 p-3">
         @if($article->image)
             <div style="width: 100%; background: #f9f9f9; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #eee;">
-                <img src="{{ asset('storage/' . $article->image) }}" 
+                <img src="{{ asset('storage/' . $article->image) }}"
                      alt="{{ $article->title }}" 
                      style="max-width: 100%; height: auto; max-height: 450px; display: block; margin: 0 auto; border-radius: 8px;">
             </div>
