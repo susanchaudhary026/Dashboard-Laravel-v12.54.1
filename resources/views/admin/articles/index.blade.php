@@ -63,7 +63,7 @@
                     <tr>
                         <td style="padding: 10px;">
                             @if($article->image)
-                                <img src="{{ $article->image }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
+                                <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px;">
                             @else
                                 <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
                                     <span class="text-gray-400">No Image</span>
