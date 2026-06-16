@@ -5,6 +5,8 @@ namespace App\Helpers;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class FileHelper
 {
@@ -49,6 +51,11 @@ class FileHelper
 
             // Generate unique filename
             $filename = self::generateUniqueFilename($file);
+
+            //image intervention use
+            $manager = new ImageManager(new Driver());
+            $img = $manager->read($file->getPathname());
+            $img->cover(200, 200);
 
             // Store in storage 
             $path = Storage::disk('public')->putFileAs('uploads/articles', $file, $filename);
