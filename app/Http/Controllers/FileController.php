@@ -23,7 +23,7 @@ class FileController extends Controller
         $filePaths = Storage::disk('public')->files($currentPath);
         
         if ($currentPath == 'uploads') {
-            $articleFiles = Storage::disk('public')->files('articles');
+            $articleFiles = Storage::disk('public')->files('uploads/articles');
             $filePaths = array_merge($filePaths, $articleFiles);
         }
 
@@ -33,7 +33,7 @@ class FileController extends Controller
                 'path'   => $path,
                 'url'    => Storage::url($path),
                 'type'   => 'file',
-                'folder' => str_contains($path, 'articles') ? 'Articles' : 'General'
+                'folder' => str_contains($path, 'uploads/articles') ? 'Articles' : 'General'
             ];
         }, $filePaths);
 
