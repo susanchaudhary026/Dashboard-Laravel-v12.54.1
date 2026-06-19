@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LiveController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
 // --- Public Routes ---
@@ -51,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     // Public live stream view
     Route::get('/live', [LiveController::class, 'index'])->name('live.index');
     Route::get('live/history', [LiveController::class, 'history'])->name('live.history');
+
+    // News
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 
 
 });
