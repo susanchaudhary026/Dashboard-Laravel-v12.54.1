@@ -31,7 +31,7 @@
         <h3>{{ $article->title }}</h3>
         <p>
             <strong>Status:</strong> 
-            @php
+            @php 
                 $is_published = (int)$article->status === 1;
                 $status_label = $is_published ? 'Published' : 'Unpublished';
                 $status_color = $is_published ? '#28a745' : '#dc3545';

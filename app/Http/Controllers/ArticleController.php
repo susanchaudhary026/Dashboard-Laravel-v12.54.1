@@ -129,7 +129,7 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin' || Auth::id() === $article->user_id) {
-            $validated = $request->validate([
+             $validated = $request->validate([
                 'title' => 'required|min:5|max:255|regex:/^[^<>]*$/',
                 'body' => 'required',
                 'category_id' => 'required|integer|exists:categories,id',

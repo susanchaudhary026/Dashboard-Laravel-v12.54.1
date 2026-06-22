@@ -46,7 +46,7 @@
                     </div>
                     
                     <div style="flex-shrink: 0; text-align: right; padding-right: 4px;">
-                        <a href="{{ $article['url'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 12px; font-weight: 500; color: #3b82f6; text-decoration: none;">
+                         <a href="{{ $article['url'] }}" target="_blank" rel="noopener noreferrer" style="font-size: 12px; font-weight: 500; color: #3b82f6; text-decoration: none;">
                             Read &rarr;
                         </a>
                     </div>

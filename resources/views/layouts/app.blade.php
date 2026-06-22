@@ -44,7 +44,7 @@
 
         .sidebar h2 { font-size: 1.5rem; margin-bottom: 20px; }
         
-        /* Your custom styles */
+        
         td a { color:#333; text-decoration: none; }
         td a:hover { text-decoration: underline; }
 
