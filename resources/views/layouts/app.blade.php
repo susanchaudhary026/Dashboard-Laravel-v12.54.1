@@ -63,7 +63,7 @@
         <a href="{{ route('live.admin') }}">Live Admin Panel</a>
         @endif
         
-        @if(Auth::check() && Auth::user()->role === 'superadmin')
+        @if(Auth::check() && Auth::user()->role === 'superadmin' || Auth::user()->role === 'admin')
         <li class="nav-item">
             <a class="nav-link {{request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                 <i class="fas fa-user-shield"></i> <span> Manage Users </span>
@@ -85,9 +85,9 @@
         </form>
     @else
         <div><strong>Please Login to continue</strong></div>
-        <div>
+       <div>
             <a href="/" class="btn btn-primary btn-sm text-white">Login</a>
-        </div>
+        </ div>
     @endauth
 </div>
 
